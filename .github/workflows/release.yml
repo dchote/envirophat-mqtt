@@ -1,5 +1,4 @@
-name: goreleaser
-
+name: release
 on:
   create:
     tags:
@@ -7,26 +6,18 @@ on:
 
 jobs:
   release:
-    name: Cut Release
+    name: release
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Set up Go
-        uses: actions/setup-go@v1
-        with:
-          go-version: 1.12
-      -
-        name: Checkout
+      - name: Check out code
         uses: actions/checkout@v1
-        
-      - 
-        name: Validates GO releaser config
+
+      - name: Validates GO releaser config
         uses: docker://goreleaser/goreleaser:latest
         with:
           args: check
 
-      - 
-        name: Create release on GitHub
+      - name: Create release on GitHub
         uses: docker://goreleaser/goreleaser:latest
         with:
           args: release
