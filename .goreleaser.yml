@@ -1,9 +1,4 @@
 # .goreleaser.yml
-env:
-  - GO111MODULE=on
-before:
-  hooks:
-    - go mod download
 builds:
   # You can have multiple builds defined as a yaml list
   -
