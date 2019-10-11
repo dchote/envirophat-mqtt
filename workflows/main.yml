@@ -1,0 +1,79 @@
+name: Build and Test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.12
+
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Lint Go Code
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin # temporary fix. See https://github.com/actions/setup-go/issues/14
+          go get -u golang.org/x/lint/golint 
+          make lint
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.12
+          
+      - name: Set up NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          
+      - name: Install Yarn
+        run: npm install -g yarn
+        
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Run Unit tests
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin:./frontend/node_modules/.bin/
+          make test-coverage
+
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest 
+    needs: [lint, test]
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.12
+          
+      - name: Set up NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          
+      - name: Install Yarn
+        run: npm install -g yarn
+        
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Build Everything
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin:./frontend/node_modules/.bin/
+          go get -u github.com/GeertJohan/go.rice
+          go get github.com/GeertJohan/go.rice/rice
+          make build
