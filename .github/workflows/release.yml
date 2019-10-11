@@ -6,7 +6,7 @@ on:
       - v*
 
 jobs:
-  goreleaser:
+  release:
     name: Cut Release
     runs-on: ubuntu-latest
     steps:
@@ -16,11 +16,17 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v1
-      -
-        name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GORELEASER_GITHUB_TOKEN }}
+        
+      - 
+        name: Validates GO releaser config
+        uses: docker://goreleaser/goreleaser:latest
         with:
-          version: latest
-          args: release --rm-dist
+          args: check
+
+      - 
+        name: Create release on GitHub
+        uses: docker://goreleaser/goreleaser:latest
+        with:
+          args: release
+        env:
+          GITHUB_TOKEN: ${{secrets.GORELEASER_GITHUB_TOKEN}}
