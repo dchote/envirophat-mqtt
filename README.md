@@ -1,6 +1,6 @@
 # envirophat-mqtt
 
-A simple go app that reads sensor information from the Pimoroni EnviroPhat and publishes it to the specified MQTT endpoint at the specified interval.
+A simple go app that reads sensor information from the Pimoroni Enviro pHAT and publishes it to the specified MQTT endpoint at the specified interval.
 
 ```
 Usage: envirophat-mqtt [options]
