@@ -2,6 +2,8 @@
 
 A simple go app that reads sensor information from the Pimoroni Enviro pHAT and publishes it to the specified MQTT endpoint at the specified interval.
 
+Please download the precompiled binary from the releases page: https://github.com/dchote/envirophat-mqtt/releases
+
 ```
 Usage: envirophat-mqtt [options]
 Options:
