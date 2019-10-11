@@ -1,4 +1,8 @@
 # .goreleaser.yml
+before:
+   hooks:
+   - go mod tidy
+
 builds:
   # You can have multiple builds defined as a yaml list
   -
@@ -31,6 +35,7 @@ builds:
     # Defaults are 386 and amd64.
     goarch:
       - arm
+      - amd64
 
     # GOARM to build for when GOARCH is arm.
     # For more info refer to: https://golang.org/doc/install/source#environment
